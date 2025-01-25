@@ -29,7 +29,7 @@ let columnsDef = [
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
-    accessorKey: "orderStatus",
+    accessorKey: "status",
     header: "Order Status",
     cell: (props) => <p>{props.getValue()}</p>,
   },
@@ -111,7 +111,7 @@ const OrderOverview = () => {
               ))}
             </tbody>
           </table>
-          {console.log(table.getPageOptions())}
+          {console.log(orders)}
           {/* Adding Pagination */}
           <Pagination table={table} />
         </>
