@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { retrieveOrders } from "../calls";
 import Loading from "./Loading";
+import StatusMenu from "./table/StatusMenu";
 import {
   getPaginationRowModel,
   flexRender,
@@ -31,7 +32,7 @@ let columnsDef = [
   {
     accessorKey: "status",
     header: "Order Status",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: StatusMenu,
   },
   {
     accessorKey: "totalAmount",
