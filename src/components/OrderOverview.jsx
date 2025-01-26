@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import useSkipper from "../customHooks";
 import { retrieveOrders } from "../calls";
 import Loading from "./Loading";
 import StatusMenu from "./table/StatusMenu";
@@ -68,6 +69,7 @@ let columnsDef = [
 
 // Main component for displaying orders in a table
 const OrderOverview = () => {
+  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
   let [orders, setOrders] = useState([]);
 
   let [isLoading, setIsLoading] = useState(true);
@@ -84,6 +86,7 @@ const OrderOverview = () => {
     getRowId: (originalRow) => originalRow.orderId, // Use `orderId` as the unique row ID
     onPaginationChange: setPagination,
     getPaginationRowModel: getPaginationRowModel(),
+    autoResetPageIndex,
     state: {
       pagination,
       rowSelection,
@@ -101,6 +104,19 @@ const OrderOverview = () => {
               : row;
           });
         });
+      },
+      deleteRows: (rowsArrIndex, all = undefined) => {
+        if (all == undefined) {
+          let updatedOrders = orders.filter((_, index) => {
+            return !rowsArrIndex.includes(index);
+          });
+          // Skip page index reset until after next rerender
+          setOrders(updatedOrders);
+        } else {
+          setOrders([]);
+        }
+        skipAutoResetPageIndex();
+        table.resetRowSelection();
       },
     },
     enableRowSelection: true,
@@ -122,6 +138,8 @@ const OrderOverview = () => {
         <>
           {/* Action Button */}
           <ActionButton
+            selectedRows={table.getSelectedRowModel().flatRows}
+            {...{ deleteMethod: table.options.meta.deleteRows }}
             className="self-end"
             currentSelectedRowsCount={Object.keys(rowSelection).length}
             totalRowsCount={table.getPreFilteredRowModel().rows.length}
