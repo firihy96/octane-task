@@ -12,6 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import Pagination from "./Pagination";
+import ActionButton from "./table/ActionButton";
 
 // Define table columns with accessors, headers, and cell renderers
 let columnsDef = [
@@ -113,12 +114,18 @@ const OrderOverview = () => {
     });
   }, []); // Empty dependency array ensures this runs only once on mount
   return (
-    <div className="">
+    <div className="flex flex-col">
       {/* Show loading spinner while data is being fetched */}
       {isLoading && <Loading />}
       {/* Render table once data is loaded */}
       {!isLoading && (
         <>
+          {/* Action Button */}
+          <ActionButton
+            className="self-end"
+            currentSelectedRowsCount={Object.keys(rowSelection).length}
+            totalRowsCount={table.getPreFilteredRowModel().rows.length}
+          />
           {/* Render table */}
           <table>
             {/* Render table header */}
@@ -160,7 +167,6 @@ const OrderOverview = () => {
           {/* Adding Pagination */}
           <Pagination table={table} />
           {/* Showing selection count */}
-
           <div>
             {Object.keys(rowSelection).length} of{" "}
             {table.getPreFilteredRowModel().rows.length} Total Rows Selected
