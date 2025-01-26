@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { retrieveOrders } from "../calls";
 import Loading from "./Loading";
 import StatusMenu from "./table/StatusMenu";
+import IndeterminateCheckbox from "./table/IndeterminateCheckbox";
 import {
   getPaginationRowModel,
   flexRender,
@@ -14,6 +15,29 @@ import Pagination from "./Pagination";
 
 // Define table columns with accessors, headers, and cell renderers
 let columnsDef = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="px-1">
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      </div>
+    ),
+  },
   {
     accessorKey: "orderId",
     header: "Order ID",
@@ -49,6 +73,8 @@ const OrderOverview = () => {
   // controlling pagination state
   let [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
+  let [rowSelection, setRowSelection] = useState({});
+
   // Initialize React Table with data, columns, and core row model
   let table = useReactTable({
     data: orders, // Data for the table
@@ -59,7 +85,10 @@ const OrderOverview = () => {
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       pagination,
+      rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
   });
   // Fetch orders data on component mount
   useEffect(() => {
@@ -112,9 +141,14 @@ const OrderOverview = () => {
               ))}
             </tbody>
           </table>
-          {console.log(orders)}
+          {console.log(table.getSelectedRowModel())}
           {/* Adding Pagination */}
           <Pagination table={table} />
+          {/* Showing selection count */}
+          <div>
+            {Object.keys(rowSelection).length} of{" "}
+            {table.getPreFilteredRowModel().rows.length} Total Rows Selected
+          </div>
         </>
       )}
     </div>
