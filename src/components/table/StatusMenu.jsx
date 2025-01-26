@@ -1,15 +1,17 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
-/* eslint-disable react/prop-types */
-const StatusMenu = ({ getValue }) => {
+const StatusMenu = ({ getValue, row, column, table }) => {
   let [value, setValue] = useState(getValue());
   return (
-    <div >
-      <select className="cursor-pointer"
+    <div>
+      <select
+        className="cursor-pointer"
         name="status"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
+          table.options.meta.updateData(row.index, column.id, e.target.value);
         }}
       >
         <option value="Shipped">Shipped</option>

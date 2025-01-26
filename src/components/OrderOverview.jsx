@@ -87,6 +87,21 @@ const OrderOverview = () => {
       pagination,
       rowSelection,
     },
+    meta: {
+      // update table state whenever cell value changed
+      updateData: (rowIndex, columnId, value) => {
+        setOrders((prev) => {
+          return prev.map((row, index) => {
+            return index === rowIndex
+              ? {
+                  ...prev[rowIndex],
+                  [columnId]: value,
+                }
+              : row;
+          });
+        });
+      },
+    },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
   });
@@ -145,6 +160,7 @@ const OrderOverview = () => {
           {/* Adding Pagination */}
           <Pagination table={table} />
           {/* Showing selection count */}
+
           <div>
             {Object.keys(rowSelection).length} of{" "}
             {table.getPreFilteredRowModel().rows.length} Total Rows Selected
