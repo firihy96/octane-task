@@ -7,7 +7,6 @@ export default function ActionButton({
   selectedRows,
   currentSelectedRowsCount,
   totalRowsCount,
-  className,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [disableDelete, setDisableDelete] = useState();
@@ -29,37 +28,33 @@ export default function ActionButton({
     }
   }, [currentSelectedRowsCount, totalRowsCount]);
   return (
-    <div className={`relative inline-block text-left ${className}`}>
+    <div className={`relative inline-block  self-center`}>
       <button
-        className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm rounded-md bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
+        className="rounded-md min-w-24 bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none "
+        type="button"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         Actions
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
-          <div className="p-2">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                disabled={disableDelete}
-                onClick={onClickHandler}
-                type="checkbox"
-                className="form-checkbox text-blue-600 rounded focus:ring-blue-500 cursor-pointer"
-              />
-              <span className="text-sm text-gray-700">Delete</span>
-            </label>
-            {/* Clear option */}
-            <label className="flex items-center space-x-2 mt-3 cursor-pointer">
-              <input
-                type="checkbox"
-                onClick={() => onClickHandler("all")}
-                className="form-checkbox text-blue-600 rounded focus:ring-blue-500 cursor-pointer"
-                disabled={disableClear}
-              />
-              <span className="text-sm text-gray-700">Clear All</span>
-            </label>
-          </div>
-        </div>
+        <ul className="absolute mt-1 z-10 min-w-24 overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-sm focus:outline-none">
+          <li
+            className={`cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 ${
+              disableDelete ? "pointer-events-none opacity-50 shadow-none" : ""
+            }`}
+            onClick={onClickHandler}
+          >
+            Delete
+          </li>
+          <li
+            className={`cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 ${
+              disableClear ? "pointer-events-none opacity-50 shadow-none" : ""
+            }`}
+            onClick={() => onClickHandler("all")}
+          >
+            Clear All
+          </li>
+        </ul>
       )}
     </div>
   );
