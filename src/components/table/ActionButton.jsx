@@ -28,7 +28,7 @@ export default function ActionButton({
     }
   }, [currentSelectedRowsCount, totalRowsCount]);
   return (
-    <div className={`relative inline-block  self-center`}>
+    <div>
       <button
         className="rounded-md min-w-24 bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none "
         type="button"

@@ -26,7 +26,7 @@ const OrderOverview = () => {
 
   let [isLoading, setIsLoading] = useState(true);
   // controlling pagination state
-  let [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  let [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
   let [rowSelection, setRowSelection] = useState({});
 
@@ -133,15 +133,13 @@ const OrderOverview = () => {
       },
       activateStatus: (rowIndex) => {
         setActiveEditCells((prev) => {
-          
           let unique = Array.from(new Set(prev));
-          if (!unique.includes(rowIndex)){
+          if (!unique.includes(rowIndex)) {
             unique.push(rowIndex);
-            return unique
+            return unique;
           } else {
-            return unique.filter(el => el !== rowIndex)
+            return unique.filter((el) => el !== rowIndex);
           }
-          
         });
       },
     },
@@ -157,22 +155,24 @@ const OrderOverview = () => {
     });
   }, []); // Empty dependency array ensures this runs only once on mount
   return (
-    <div className="contents">
+    <div className="size-full px-0 overflow-hidden">
       {/* Show loading spinner while data is being fetched */}
       {isLoading && <Loading />}
       {/* Render table once data is loaded */}
       {!isLoading && (
-        <div className="p-6 px-0 overflow-scroll">
+        <div className="flex flex-col size-full ">
           {/* Action Button */}
-          <ActionButton
-            selectedRows={table.getSelectedRowModel().flatRows}
-            {...{ deleteMethod: table.options.meta.deleteRows }}
-            className="self-end"
-            currentSelectedRowsCount={Object.keys(rowSelection).length}
-            totalRowsCount={table.getPreFilteredRowModel().rows.length}
-          />
+          <div className="h-fit max-h-16 p-2 w-full self-start">
+            <ActionButton
+              selectedRows={table.getSelectedRowModel().flatRows}
+              {...{ deleteMethod: table.options.meta.deleteRows }}
+              className="self-end"
+              currentSelectedRowsCount={Object.keys(rowSelection).length}
+              totalRowsCount={table.getPreFilteredRowModel().rows.length}
+            />
+          </div>
           {/* Render table */}
-          <table className="w-full text-left table-auto min-w-max">
+          <table className="w-fit text-left table-auto min-w-max flex-1">
             {/* Render table header */}
             <thead>
               {table.getHeaderGroups().map((headerGroup) => {
@@ -182,12 +182,12 @@ const OrderOverview = () => {
                       return (
                         <th
                           key={header.id}
-                          className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50"
+                          className="min-w-24 max-w-32 py-4 px-2 border-y border-[#eceff180]-100 bg-[#eceff180]"
                         >
-                          <div className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                          <div className="block font-sans text-sm antialiased font-normal leading-none text-[#eceff180]-900 opacity-70 mx-auto">
                             {flexRender(
                               header.column.columnDef.header, // Render header content
-                              header.getContext()
+                              header.getContext() 
                             )}
                           </div>
                         </th>
@@ -202,11 +202,8 @@ const OrderOverview = () => {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="p-4 border-b border-blue-gray-50"
-                    >
-                      <div className="block font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
+                    <td key={cell.id} className="min-w-24 max-w-32  px-2 border-b border-[#eceff180]-50">
+                      <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -218,6 +215,7 @@ const OrderOverview = () => {
               ))}
             </tbody>
           </table>
+
           {/* Adding Pagination */}
           <Pagination table={table} />
         </div>
