@@ -181,14 +181,8 @@ const OrderOverview = () => {
               ))}
             </tbody>
           </table>
-          {console.log(table.getSelectedRowModel())}
           {/* Adding Pagination */}
-          <Pagination table={table} />
-          {/* Showing selection count */}
-          <div>
-            {Object.keys(rowSelection).length} of{" "}
-            {table.getPreFilteredRowModel().rows.length} Total Rows Selected
-          </div>
+          <Pagination table={table}/>
         </>
       )}
     </div>
