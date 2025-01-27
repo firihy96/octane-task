@@ -14,6 +14,8 @@ import {
 } from "@tanstack/react-table";
 import Pagination from "./Pagination";
 import ActionButton from "./table/ActionButton";
+import TableCell from "./table/TableCell";
+import TableEditCell from "./table/TableEditCell";
 
 // Define table columns with accessors, headers, and cell renderers
 let columnsDef = [
@@ -29,7 +31,7 @@ let columnsDef = [
       />
     ),
     cell: ({ row }) => (
-      <div className="px-1">
+      <div>
         <IndeterminateCheckbox
           {...{
             checked: row.getIsSelected(),
@@ -43,17 +45,17 @@ let columnsDef = [
   {
     accessorKey: "orderId",
     header: "Order ID",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: TableCell
   },
   {
     accessorKey: "customerName",
     header: "Customer Name",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: TableCell
   },
   {
     accessorKey: "orderDate",
     header: "Order Date",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: TableCell,
   },
   {
     accessorKey: "status",
@@ -63,7 +65,12 @@ let columnsDef = [
   {
     accessorKey: "totalAmount",
     header: "Total Amount",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: TableCell
+  },
+  {
+    id: "edit",
+    header: "",
+    cell: TableEditCell,
   },
 ];
 
@@ -130,12 +137,12 @@ const OrderOverview = () => {
     });
   }, []); // Empty dependency array ensures this runs only once on mount
   return (
-    <div className="flex flex-col">
+    <div className="contents">
       {/* Show loading spinner while data is being fetched */}
       {isLoading && <Loading />}
       {/* Render table once data is loaded */}
       {!isLoading && (
-        <>
+        <div className="p-6 px-0 overflow-scroll">
           {/* Action Button */}
           <ActionButton
             selectedRows={table.getSelectedRowModel().flatRows}
@@ -145,7 +152,7 @@ const OrderOverview = () => {
             totalRowsCount={table.getPreFilteredRowModel().rows.length}
           />
           {/* Render table */}
-          <table>
+          <table className="w-full text-left table-auto min-w-max">
             {/* Render table header */}
             <thead>
               {table.getHeaderGroups().map((headerGroup) => {
@@ -153,11 +160,16 @@ const OrderOverview = () => {
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
-                        <th key={header.id}>
-                          {flexRender(
-                            header.column.columnDef.header, // Render header content
-                            header.getContext()
-                          )}
+                        <th
+                          key={header.id}
+                          className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50"
+                        >
+                          <div className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            {flexRender(
+                              header.column.columnDef.header, // Render header content
+                              header.getContext()
+                            )}
+                          </div>
                         </th>
                       );
                     })}
@@ -170,11 +182,16 @@ const OrderOverview = () => {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell, // Render cell content
-                        cell.getContext()
-                      )}
+                    <td
+                      key={cell.id}
+                      className="p-4 border-b border-blue-gray-50"
+                    >
+                      <div className="block font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
+                        {flexRender(
+                          cell.column.columnDef.cell, // Render cell content
+                          cell.getContext()
+                        )}
+                      </div>
                     </td>
                   ))}
                 </tr>
@@ -182,8 +199,8 @@ const OrderOverview = () => {
             </tbody>
           </table>
           {/* Adding Pagination */}
-          <Pagination table={table}/>
-        </>
+          <Pagination table={table} />
+        </div>
       )}
     </div>
   );
