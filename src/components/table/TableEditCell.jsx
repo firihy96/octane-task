@@ -1,17 +1,23 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 
-const TableEditCell = () => {
-  let [isClicked, setIsClicked] = useState(false);
-
+const TableEditCell = ({ table, column, row }) => {
+  let [isEditActive, setIsEditActive] = useState(false);
+  let activeEditCells = table.options.state.activeEditCells;
+  useEffect(() => {
+    console.log("isEditActive from useEffect",isEditActive, row.index);
+    console.log("activeEditCells from useEffect",table.options.state.activeEditCells);
+      table.options.meta.activateStatus(row.index, isEditActive);
+  }, [isEditActive]);
   return (
     <div className="p-4 border-blue-gray-50">
       <button
-        className={`relative h-10 max-h-[40px] w-10 max-w-[40px]  text-center select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/50 ${
-          isClicked ? " bg-gray-900/20 " : ""
+        className={`relative h-10 max-h-[40px] w-10 max-w-[40px]  select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/50 ${
+          isEditActive ? " bg-gray-900/20 " : ""
         } `}
         type="button"
         onClick={() => {
-          setIsClicked((prev) => !prev);
+          setIsEditActive((prev) => !prev);
         }}
       >
         <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">

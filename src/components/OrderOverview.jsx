@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import useSkipper from "../customHooks";
 import { retrieveOrders } from "../calls";
 import Loading from "./Loading";
@@ -18,61 +18,6 @@ import TableCell from "./table/TableCell";
 import TableEditCell from "./table/TableEditCell";
 
 // Define table columns with accessors, headers, and cell renderers
-let columnsDef = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <IndeterminateCheckbox
-        {...{
-          checked: table.getIsAllRowsSelected(),
-          indeterminate: table.getIsSomeRowsSelected(),
-          onChange: table.getToggleAllRowsSelectedHandler(),
-        }}
-      />
-    ),
-    cell: ({ row }) => (
-      <div>
-        <IndeterminateCheckbox
-          {...{
-            checked: row.getIsSelected(),
-            indeterminate: row.getIsSomeSelected(),
-            onChange: row.getToggleSelectedHandler(),
-          }}
-        />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "orderId",
-    header: "Order ID",
-    cell: TableCell
-  },
-  {
-    accessorKey: "customerName",
-    header: "Customer Name",
-    cell: TableCell
-  },
-  {
-    accessorKey: "orderDate",
-    header: "Order Date",
-    cell: TableCell,
-  },
-  {
-    accessorKey: "status",
-    header: "Order Status",
-    cell: StatusMenu,
-  },
-  {
-    accessorKey: "totalAmount",
-    header: "Total Amount",
-    cell: TableCell
-  },
-  {
-    id: "edit",
-    header: "",
-    cell: TableEditCell,
-  },
-];
 
 // Main component for displaying orders in a table
 const OrderOverview = () => {
@@ -84,6 +29,66 @@ const OrderOverview = () => {
   let [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
   let [rowSelection, setRowSelection] = useState({});
+
+  let [activeEditCells, setActiveEditCells] = useState([]);
+  let columnsDef = useMemo(
+    () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <div>
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      },
+      {
+        accessorKey: "orderId",
+        header: "Order ID",
+        cell: TableCell,
+      },
+      {
+        accessorKey: "customerName",
+        header: "Customer Name",
+        cell: TableCell,
+      },
+      {
+        accessorKey: "orderDate",
+        header: "Order Date",
+        cell: TableCell,
+      },
+      {
+        accessorKey: "status",
+        header: "Order Status",
+        cell: StatusMenu,
+      },
+      {
+        accessorKey: "totalAmount",
+        header: "Total Amount",
+        cell: TableCell,
+      },
+      {
+        id: "edit",
+        header: "",
+        cell: TableEditCell,
+      },
+    ],
+    []
+  );
 
   // Initialize React Table with data, columns, and core row model
   let table = useReactTable({
@@ -97,6 +102,7 @@ const OrderOverview = () => {
     state: {
       pagination,
       rowSelection,
+      activeEditCells,
     },
     meta: {
       // update table state whenever cell value changed
@@ -125,9 +131,23 @@ const OrderOverview = () => {
         skipAutoResetPageIndex();
         table.resetRowSelection();
       },
+      activateStatus: (rowIndex) => {
+        setActiveEditCells((prev) => {
+          
+          let unique = Array.from(new Set(prev));
+          if (!unique.includes(rowIndex)){
+            unique.push(rowIndex);
+            return unique
+          } else {
+            return unique.filter(el => el !== rowIndex)
+          }
+          
+        });
+      },
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
+    onStateChange: setActiveEditCells,
   });
   // Fetch orders data on component mount
   useEffect(() => {
@@ -188,7 +208,7 @@ const OrderOverview = () => {
                     >
                       <div className="block font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
                         {flexRender(
-                          cell.column.columnDef.cell, // Render cell content
+                          cell.column.columnDef.cell,
                           cell.getContext()
                         )}
                       </div>
@@ -205,5 +225,4 @@ const OrderOverview = () => {
     </div>
   );
 };
-
 export default OrderOverview;
