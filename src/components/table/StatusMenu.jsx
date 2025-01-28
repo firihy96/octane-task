@@ -56,7 +56,7 @@ const StatusMenu = ({ row, column, table }) => {
           Delivered
         </option>
         <option className={`${statusStyles.cancelled}`} value="Cancelled">
-          Cancelled
+          Canceled
         </option>
       </select>
     </div>

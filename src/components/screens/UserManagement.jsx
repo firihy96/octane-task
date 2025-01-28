@@ -17,6 +17,8 @@ import TableCell from "../table/TableCell";
 import TableEditCell from "../table/TableEditCell";
 import ScreenHeader from "../ScreenHeader";
 import Table from "../table/Table";
+import RoleOptions from "../table/RoleOptions";
+import ActiveOption from "../table/ActiveOption";
 
 const UserManagement = ({ className }) => {
   let [orders, setOrders] = useState([]);
@@ -72,12 +74,12 @@ const UserManagement = ({ className }) => {
       {
         accessorKey: "role",
         header: "Role",
-        cell: TableCell,
+        cell: RoleOptions,
       },
       {
         accessorKey: "activeStatus",
         header: "Active Status",
-        cell: TableCell,
+        cell: ActiveOption,
       },
       {
         id: "edit",
@@ -168,7 +170,7 @@ const UserManagement = ({ className }) => {
             <Table
               table={table}
               flexRender={flexRender}
-              className={" text-left flex-1 w-full"}
+              className={"text-left flex-1 w-full"}
             />
             {/* Footer Part */}
             <Pagination table={table} />
