@@ -16,15 +16,17 @@ import Pagination from "./Pagination";
 import ActionButton from "./table/ActionButton";
 import TableCell from "./table/TableCell";
 import TableEditCell from "./table/TableEditCell";
+import OrderOverviewHeader from "./OrderOverviewHeader";
+import Table from "./table/Table";
 
 // Define table columns with accessors, headers, and cell renderers
 
 // Main component for displaying orders in a table
 const OrderOverview = () => {
-  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
   let [orders, setOrders] = useState([]);
 
   let [isLoading, setIsLoading] = useState(true);
+  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
   // controlling pagination state
   let [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
@@ -132,7 +134,6 @@ const OrderOverview = () => {
         table.resetRowSelection();
       },
       activateStatus: (rowStatus) => {
-        let updateEditCells = [];
         if (rowStatus[1]) {
           setActiveEditCells([...activeEditCells, rowStatus[0]]);
         } else {
@@ -152,74 +153,26 @@ const OrderOverview = () => {
       setOrders(resp);
       setIsLoading(false);
     });
-  }, []); // Empty dependency array ensures this runs only once on mount
-  console.log(activeEditCells);
+  }, []);
   return (
-    <div className="size-full px-6 overflow-hidden">
-      {/* Show loading spinner while data is being fetched */}
+    <div className="size-full px-6 flex justify-center items-center ">
       {isLoading && <Loading />}
-      {/* Render table once data is loaded */}
       {!isLoading && (
-        <div className="flex flex-col size-full items-center">
-          {/* Action Button */}
-          <div className="h-fit max-h-16 p-2 self-end">
-            <ActionButton
-              selectedRows={table.getSelectedRowModel().flatRows}
-              {...{ deleteMethod: table.options.meta.deleteRows }}
-              className="self-end"
-              currentSelectedRowsCount={Object.keys(rowSelection).length}
-              totalRowsCount={table.getPreFilteredRowModel().rows.length}
-            />
-          </div>
-          {/* Render table */}
-          <table className="w-full text-left table-auto flex-1 overflow-hidden">
-            {/* Render table header */}
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => {
-                return (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <th
-                          key={header.id}
-                          className="w-20 max-w-32 py-4 px-1 border-y border-[#eceff180]-100 bg-[#eceff180]"
-                        >
-                          <div className="block font-sans text-sm antialiased font-normal leading-none text-[#eceff180]-900 opacity-70 mx-auto">
-                            {flexRender(
-                              header.column.columnDef.header, // Render header content
-                              header.getContext()
-                            )}
-                          </div>
-                        </th>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </thead>
-            {/* Render table body */}
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="min-w-24 max-w-32  px-2 border-b border-[#eceff180]-50"
-                    >
-                      <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Adding Pagination */}
+        <div className="flex flex-col h-full w-full items-center justify-center ">
+          {/* Screen 1 Header Part */}
+          <OrderOverviewHeader
+            table={table}
+            rowSelection={rowSelection}
+            className={"h-14 p-2 size-full flex-shrink-0 "}>
+            Orders Overview
+          </OrderOverviewHeader>
+          {/* table */}
+          <Table
+            table={table}
+            flexRender={flexRender}
+            className={" text-left flex-1 w-full"}
+          />
+          {/* Footer Part */}
           <Pagination table={table} />
         </div>
       )}

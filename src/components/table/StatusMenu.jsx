@@ -37,7 +37,9 @@ const StatusMenu = ({ row, column, table }) => {
       ${disable ? " pointer-events-none opacity-90 " : "  "}`}
     >
       <select
-        className={`w-full text-sm border border-transparent px-1 transition duration-300 ease outline-none ${currentStyle}  ${disable ? "  appearance-none " : "  "} `}
+        className={`w-full text-sm border border-transparent px-1 transition duration-300 ease outline-none ${currentStyle}  ${
+          disable ? "  appearance-none " : "  "
+        } `}
         name="status"
         value={value}
         onChange={(e) => handleChange(e)}
