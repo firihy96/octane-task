@@ -1,14 +1,14 @@
 import { useLayoutEffect, useState, useCallback } from "react";
 
-const RoleOptions = ({ row, column, table }) => {
+const RoleOptions = ({ row, column, table, getValue  }) => {
   
-  const [value, setValue] = useState(row.original.role); 
+  const [value, setValue] = useState(getValue()); 
   const [disable, setDisable] = useState(false);
 
   const roleStyles = {
-    admin: "bg-purple-200 text-purple-800", 
-    guest: "bg-gray-200 text-gray-800",    
-    user: "bg-blue-200 text-blue-800",     
+    admin: "bg-indigo-200 text-indigo-800",      
+    guest: "bg-slate-200 text-slate-800",         
+    user: "bg-sky-200 text-sky-800",             
   };
 
   // Handle change in the select element

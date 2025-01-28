@@ -74,8 +74,8 @@ const Pagination = ({ table }) => {
             onKeyDown={(e) => e.key === "Enter" && handlePageSubmit()}
           />
         </p>
-      </div>
-      <div>
+      </div >
+      <div className="min-w-1/2">
         <button
           className={"rounded-md rounded-r-none rounded-l border " + buttonClass}
           onClick={() => table.firstPage()}

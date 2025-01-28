@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function ActionButton({
   deleteMethod,
@@ -11,6 +9,7 @@ export default function ActionButton({
   const [isOpen, setIsOpen] = useState(false);
   const [disableDelete, setDisableDelete] = useState();
   const [disableClear, setDisableClear] = useState();
+  const dropdownRef = useRef(null);
 
   let onClickHandler = () => {
     deleteMethod(selectedRows.map((row) => row.index));
@@ -27,8 +26,9 @@ export default function ActionButton({
       setDisableClear(true);
     }
   }, [currentSelectedRowsCount, totalRowsCount]);
+
   return (
-    <div>
+    <div ref={dropdownRef}>
       <button
         className="rounded-md min-w-24 bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none "
         type="button"
