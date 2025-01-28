@@ -5,9 +5,12 @@ const TableEditCell = ({ table, column, row }) => {
   let [isEditActive, setIsEditActive] = useState(false);
   let activeEditCells = table.options.state.activeEditCells;
   useEffect(() => {
-    console.log("isEditActive from useEffect",isEditActive, row.index);
-    console.log("activeEditCells from useEffect",table.options.state.activeEditCells);
-      table.options.meta.activateStatus(row.index, isEditActive);
+    if (activeEditCells.includes(row.index)) {
+      setIsEditActive(true);
+    }
+  }, []);
+  useEffect(() => {
+    table.options.meta.activateStatus([row.index, isEditActive]);
   }, [isEditActive]);
   return (
     <div className="p-4 border-blue-gray-50">

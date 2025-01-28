@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, act } from "react";
 import useSkipper from "../customHooks";
 import { retrieveOrders } from "../calls";
 import Loading from "./Loading";
@@ -131,16 +131,15 @@ const OrderOverview = () => {
         skipAutoResetPageIndex();
         table.resetRowSelection();
       },
-      activateStatus: (rowIndex) => {
-        setActiveEditCells((prev) => {
-          let unique = Array.from(new Set(prev));
-          if (!unique.includes(rowIndex)) {
-            unique.push(rowIndex);
-            return unique;
-          } else {
-            return unique.filter((el) => el !== rowIndex);
-          }
-        });
+      activateStatus: (rowStatus) => {
+        let updateEditCells = [];
+        if (rowStatus[1]) {
+          setActiveEditCells([...activeEditCells, rowStatus[0]]);
+        } else {
+          setActiveEditCells((prev) => {
+            return prev.filter((el) => el !== rowStatus[0]);
+          });
+        }
       },
     },
     enableRowSelection: true,
@@ -154,15 +153,16 @@ const OrderOverview = () => {
       setIsLoading(false);
     });
   }, []); // Empty dependency array ensures this runs only once on mount
+  console.log(activeEditCells);
   return (
-    <div className="size-full px-0 overflow-hidden">
+    <div className="size-full px-6 overflow-hidden">
       {/* Show loading spinner while data is being fetched */}
       {isLoading && <Loading />}
       {/* Render table once data is loaded */}
       {!isLoading && (
-        <div className="flex flex-col size-full ">
+        <div className="flex flex-col size-full items-center">
           {/* Action Button */}
-          <div className="h-fit max-h-16 p-2 w-full self-start">
+          <div className="h-fit max-h-16 p-2 self-end">
             <ActionButton
               selectedRows={table.getSelectedRowModel().flatRows}
               {...{ deleteMethod: table.options.meta.deleteRows }}
@@ -172,7 +172,7 @@ const OrderOverview = () => {
             />
           </div>
           {/* Render table */}
-          <table className="w-fit text-left table-auto min-w-max flex-1">
+          <table className="w-full text-left table-auto flex-1 overflow-hidden">
             {/* Render table header */}
             <thead>
               {table.getHeaderGroups().map((headerGroup) => {
@@ -182,12 +182,12 @@ const OrderOverview = () => {
                       return (
                         <th
                           key={header.id}
-                          className="min-w-24 max-w-32 py-4 px-2 border-y border-[#eceff180]-100 bg-[#eceff180]"
+                          className="w-20 max-w-32 py-4 px-1 border-y border-[#eceff180]-100 bg-[#eceff180]"
                         >
                           <div className="block font-sans text-sm antialiased font-normal leading-none text-[#eceff180]-900 opacity-70 mx-auto">
                             {flexRender(
                               header.column.columnDef.header, // Render header content
-                              header.getContext() 
+                              header.getContext()
                             )}
                           </div>
                         </th>
@@ -202,7 +202,10 @@ const OrderOverview = () => {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="min-w-24 max-w-32  px-2 border-b border-[#eceff180]-50">
+                    <td
+                      key={cell.id}
+                      className="min-w-24 max-w-32  px-2 border-b border-[#eceff180]-50"
+                    >
                       <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900">
                         {flexRender(
                           cell.column.columnDef.cell,
