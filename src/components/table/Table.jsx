@@ -32,7 +32,7 @@ const Table = ({ table, flexRender, className }) => {
             {row.getVisibleCells().map((cell) => (
               <td
                 key={cell.id}
-                className="min-w-10 max-w-32 px-1 min-h-16 max-h-20 border-b border-[#eceff180]-50"
+                className=" px-1 min-h-16 max-h-20 border-b border-[#eceff180]-50"
               >
                 <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

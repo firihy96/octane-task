@@ -1,21 +1,26 @@
-import OrderOverview from "./components/OrderOverview";
-import UserManagement from "./components/UserManagement";
+import OrderOverview from "./components/screens/OrderOverview";
+import UserManagement from "./components/screens/UserManagement";
+import Tabs from "./components/Tabs";
 
 export default function App() {
+  const tabs = [
+    {
+      key: "OrderOverview",
+      label: "Order Overview",
+      content: <OrderOverview className=" relative flex flex-col items-center w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border " />
+    },
+    {
+      key: "UserManagement",
+      label: "User Management",
+      content: <UserManagement className="relative flex flex-col items-center w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border" />,
+    },
+  ];
   return (
-    <>
-      <div className="w-screen h-screen flex flex-col ">
-        <header className="h-20 border-b-2">Header</header>
-        <main className="grid grid-cols-2 place-items-center divide-x-2 flex-1">
-          <section className="size-full">
-            <OrderOverview />
-          </section>
-          <section className="size-full">
-            <UserManagement />
-          </section>
-        </main>
-        <footer className="h-20 border-t-2">Footer</footer>
-      </div>
-    </>
+    <div className="w-screen h-screen flex flex-col ">
+      <Tabs tabs={tabs} />
+      <footer className="min-h-12 bg-gray-200 border-t border-gray-300 py-3 flex items-center justify-center text-gray-700 text-sm">
+      <p>&copy; {new Date().getFullYear()}</p>
+    </footer>
+    </div>
   );
 }
