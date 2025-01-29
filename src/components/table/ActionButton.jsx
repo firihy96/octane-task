@@ -30,7 +30,7 @@ export default function ActionButton({
   return (
     <div ref={dropdownRef}>
       <button
-        className="rounded-md min-w-24 bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none "
+        className="rounded-md min-w-24 bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none dark:bg-blue-600 dark:hover:bg-blue-500 "
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
       >

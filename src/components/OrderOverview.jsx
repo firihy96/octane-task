@@ -155,7 +155,7 @@ const OrderOverview = () => {
     });
   }, []);
   return (
-    <div className="size-full px-6 flex justify-center items-center ">
+    <div className="size-full px-6 flex justify-center items-center dark:bg-gray-900">
       {isLoading && <Loading />}
       {!isLoading && (
         <div className="flex flex-col h-full w-full items-center justify-center ">

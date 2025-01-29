@@ -6,11 +6,11 @@ const Pagination = ({ table }) => {
   );
 
   const buttonClass =
-    "border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none";
+    "border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800  active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none dark:text-gray-200";
 
   const generatePagination = (currentPage, totalPages, siblingCount = 1) => {
-    const firstPage = 0; 
-    const lastPage = totalPages - 1; 
+    const firstPage = 0;
+    const lastPage = totalPages - 1;
 
     const range = (start, end) =>
       Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -58,13 +58,15 @@ const Pagination = ({ table }) => {
   };
 
   return (
-    <div className="w-full h-12 p-2 flex-shrink-0 flex items-center justify-between">
+    <div className="w-full h-12 p-2 flex-shrink-0 flex items-center justify-between dark:text-gray-200">
       <div>
-        <p className="text-slate-600">
+        <p className="text-slate-600 dark:text-gray-200">
           Go to Page{" "}
           <input
             type="number"
-            className="w-fit bg-transparent placeholder:text-slate-400 placeholder:italic text-slate-700 text-sm border border-slate-200 rounded-md p-2 py-1 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+            className="w-fit bg-transparent placeholder:text-slate-400 placeholder:italic text-slate-700 text-sm border border-slate-200 rounded-md p-2 py-1 transition duration-300 ease focus:outline-none focus:border-slate-400
+            dark:focus:bg-gray-200
+            hover:border-slate-300 shadow-sm focus:shadow dark:text-gray-200"
             value={pageInput}
             min="1"
             max={totalPages}
@@ -74,10 +76,13 @@ const Pagination = ({ table }) => {
             onKeyDown={(e) => e.key === "Enter" && handlePageSubmit()}
           />
         </p>
-      </div >
+      </div>
       <div className="min-w-1/2">
         <button
-          className={"rounded-md rounded-r-none rounded-l border " + buttonClass}
+          className={
+            "rounded-md rounded-r-none rounded-l   dark:bg-gray-600 dark:text-gray-200 " +
+            buttonClass
+          }
           onClick={() => table.firstPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -86,14 +91,21 @@ const Pagination = ({ table }) => {
         {pagination.map((page, index) => {
           if (page === "...") {
             return (
-              <span key={`ellipsis-${index}`} className={"py-2 px-3 text-slate-600"}>
+              <p
+                key={`ellipsis-${index}`}
+                className={buttonClass + " inline-block h-full dark:bg-gray-600 dark:text-gray-200"}
+              >
                 ...
-              </span>
+              </p>
             );
           }
           return (
             <button
-              className={buttonClass + (currentPage === page ? " bg-slate-800 text-white" : "")}
+              className={
+                buttonClass +
+                " dark:bg-gray-600 dark:text-gray-200 h-full" +
+                (currentPage === page ? " bg-slate-800 text-white" : "")
+              }
               key={page}
               onClick={() => table.setPageIndex(page)}
             >
@@ -102,7 +114,10 @@ const Pagination = ({ table }) => {
           );
         })}
         <button
-          className={"rounded-md rounded-l-none border " + buttonClass}
+          className={
+            "rounded-md rounded-l-none  dark:bg-gray-600 dark:text-gray-200  h-fit " +
+            buttonClass
+          }
           onClick={() => table.lastPage()}
           disabled={!table.getCanNextPage()}
         >
