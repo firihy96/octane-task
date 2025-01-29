@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import useSkipper from "../../customHooks"; // Custom hook to skip auto-reset of page index
-import { retrieveUsers } from "../../calls"; // API call to fetch users
+import { retrieveOrders } from "../../calls"; // API call to fetch orders
 import Loading from "../Loading"; // Loading spinner component
+import StatusMenu from "../table/StatusMenu"; // Dropdown menu for order status
 import IndeterminateCheckbox from "../table/IndeterminateCheckbox"; // Checkbox for row selection
 import {
   getPaginationRowModel,
@@ -14,21 +15,17 @@ import TableCell from "../table/TableCell"; // Default table cell renderer
 import TableEditCell from "../table/TableEditCell"; // Editable table cell renderer
 import ScreenHeader from "../ScreenHeader"; // Header component for the screen
 import Table from "../table/Table"; // Main table component
-import RoleOptions from "../table/RoleOptions"; // Dropdown menu for user roles
-import ActiveOption from "../table/ActiveOption"; // Dropdown menu for active status
 
-/**
- * Main component for displaying users in a table.
- * @param {string} className - CSS class name for styling the component.
- */
-const UserManagement = ({ className }) => {
-  // State to store the list of users
+const OrderOverview = ({ className }) => {
+  // State to store the list of orders
   let [orders, setOrders] = useState([]);
 
   // State to manage loading state while fetching data
   let [isLoading, setIsLoading] = useState(true);
+
   // state to indicate is data changes or not
   let [isChanged, setIsChanged] = useState(false);
+
 
   // state to store edited values
 
@@ -78,29 +75,29 @@ const UserManagement = ({ className }) => {
         ),
       },
       {
-        accessorKey: "userId", // Unique identifier for each user
-        header: "User ID",
+        accessorKey: "orderId", // Unique identifier for each order
+        header: "Order ID",
         cell: TableCell, // Default cell renderer
       },
       {
-        accessorKey: "username", // Username of the user
-        header: "Username",
+        accessorKey: "customerName", // Name of the customer
+        header: "Customer Name",
         cell: TableCell,
       },
       {
-        accessorKey: "email", // Email of the user
-        header: "User Email",
+        accessorKey: "orderDate", // Date of the order
+        header: "Order Date",
         cell: TableCell,
       },
       {
-        accessorKey: "role", // Role of the user
-        header: "Role",
-        cell: RoleOptions, // Custom dropdown menu for roles
+        accessorKey: "status", // Status of the order
+        header: "Order Status",
+        cell: StatusMenu, // Custom dropdown menu for status
       },
       {
-        accessorKey: "activeStatus", // Active status of the user
-        header: "Active Status",
-        cell: ActiveOption, // Custom dropdown menu for active status
+        accessorKey: "totalAmount", // Total amount of the order
+        header: "Total Amount",
+        cell: TableCell,
       },
       {
         id: "edit", // Column for edit actions
@@ -149,7 +146,9 @@ const UserManagement = ({ className }) => {
           let updatedOrders = orders.filter((_, index) => {
             return !rowsArrIndex.includes(index);
           });
-          setOrders(updatedOrders); // Update orders state
+          setOrders(() => {
+            return updatedOrders;
+          });
           // store the deletes rows
           setEdits((prev) => ({
             ...prev,
@@ -174,19 +173,18 @@ const UserManagement = ({ className }) => {
         }
       },
     },
-    enableRowSelection: true, // Enable row selection
-    onRowSelectionChange: setRowSelection, // Handle row selection changes
-    onStateChange: setActiveEditCells, // Handle state changes
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onStateChange: { setActiveEditCells, setIsChanged, setEdits },
   });
 
-  // Fetch users data on component mount
+  // Fetch orders data on component mount
   useEffect(() => {
-    retrieveUsers().then((resp) => {
-      setOrders(resp); // Set users data
+    retrieveOrders().then((resp) => {
+      setOrders(resp); // Set orders data
       setIsLoading(false); // Set loading state to false
     });
   }, []);
-
   return (
     <div className={className}>
       <div className="size-full px-6 flex justify-center items-center dark:bg-gray-900">
@@ -199,15 +197,15 @@ const UserManagement = ({ className }) => {
               table={table}
               edits={edits}
               rowSelection={rowSelection}
-              className={"p-2 w-full flex-shrink-0 "}
+              className={" p-2 w-full flex-shrink-0 "}
             >
-              User Management
+              Orders Overview
             </ScreenHeader>
             {/* Table */}
             <Table
               table={table}
               flexRender={flexRender}
-              className={"text-left flex-1 w-full"}
+              className={" text-left flex-1 w-full"}
             />
             {/* Pagination */}
             <Pagination table={table} />
@@ -218,4 +216,4 @@ const UserManagement = ({ className }) => {
   );
 };
 
-export default UserManagement;
+export default OrderOverview;
