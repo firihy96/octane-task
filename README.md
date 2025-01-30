@@ -1,9 +1,12 @@
 # Order Management Dashboard
 
 ## 📌 Overview
-The **Order Management Dashboard** is a web application designed to display and manage order data fetched from APIs. It provides an interactive table with features like pagination, filtering, status updates, and bulk actions. The app also includes a dark mode toggle and a user-friendly interface for seamless navigation.
+The **Order Management Dashboard** is a web application designed to display and manage order data fetched from APIs. It provides an interactive table with features like pagination, status updates, and bulk actions. The app also includes a dark mode toggle and a user-friendly interface for seamless navigation.
 
 ## 🚀 Features
+
+### 🔹 Live Demo
+- [Live Demo](https://octane-task.vercel.app/): Check out the deployed version of the app on Vercel.
 
 ### 🔹 Header
 - **Tab Navigation:** Switch between two tables (Order Overview & User Management).
@@ -30,7 +33,7 @@ The **Order Management Dashboard** is a web application designed to display and 
 - **Frontend:** React, Tailwind CSS
 - **State Management:** React Hooks
 - **API Handling:** Axios (or Fetch API)
-- **Deployment:** Vercel/Netlify (optional)
+- **Deployment:** Vercel
 
 ## ⚡ Getting Started
 
@@ -38,33 +41,3 @@ The **Order Management Dashboard** is a web application designed to display and 
 ```sh
 git clone https://github.com/firihy96/octane-task.git
 cd octane-task
-```
-
-### 2️⃣ Install Dependencies
-```sh
-npm install
-```
-
-
-### 4️⃣ Run the Application
-```sh
-npm run dev
-```
-
-## 🎨 UI & Styling
-- The app is styled using **Tailwind CSS** for a modern and responsive design.
-- Dark mode is implemented using **CSS variables**.
-- Interactive elements (buttons, checkboxes, and tables) follow an intuitive and accessible design.
-
-## 🔄 API Integration
-- The app fetches order data from an API and updates the table accordingly.
-- Supports real-time status updates when an edit button is clicked.
-- Uses Axios to handle API requests efficiently.
-
-## 📌 Future Enhancements
-- **Search & Filtering:** Allow users to search for specific orders.
-- **Sorting:** Enable sorting by order date, status, or amount.
-- **Export Data:** Provide an option to export table data as CSV.
-
-## 🛠️ Contributing
-Contributions are welcome! Feel free to submit a pull request or open an issue.
