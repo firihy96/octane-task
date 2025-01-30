@@ -10,9 +10,10 @@ const Table = ({ table, flexRender, className }) => {
                 return (
                   <th
                     key={header.id}
-                    className="min-w-10 max-w-32 px-1 py-4 min-h-16 max-h-20 border-y border-[#eceff180]-100 bg-[#eceff180] "
+                    className="min-w-16
+                     max-w-32 px-1 py-4 min-h-16 max-h-20 border-y border-[#eceff180]-100 bg-[#eceff180]"
                   >
-                    <div className="block font-sans text-sm antialiased font-normal leading-none text-[#eceff180]-900 opacity-70 mx-auto dark:border-gray-700 ">
+                    <div className="block font-sans text-sm antialiased font-normal leading-none text-[#eceff180]-900 opacity-70 w-fit mx-auto dark:border-gray-700">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
@@ -34,7 +35,7 @@ const Table = ({ table, flexRender, className }) => {
                 key={cell.id}
                 className=" px-1 min-h-16 max-h-20 border-b border-[#eceff180]-50 "
               >
-                <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900 w-full">
+                <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900 w-fit mx-auto">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </div>
               </td>

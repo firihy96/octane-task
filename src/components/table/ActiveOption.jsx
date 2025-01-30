@@ -25,7 +25,7 @@ const ActiveOption = ({ row, column, table, getValue }) => {
 
   return (
     <div
-      className={`cursor-pointer relative w-full
+      className={`cursor-pointer relative w-fit
          grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${
         activeStyles[value]
       } ${disable ? "pointer-events-none opacity-90" : ""}`}

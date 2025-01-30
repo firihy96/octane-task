@@ -1,8 +1,70 @@
-# React + Vite
+# Order Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
+The **Order Management Dashboard** is a web application designed to display and manage order data fetched from APIs. It provides an interactive table with features like pagination, filtering, status updates, and bulk actions. The app also includes a dark mode toggle and a user-friendly interface for seamless navigation.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔹 Header
+- **Tab Navigation:** Switch between two tables (Order Overview & User Management).
+- **Theme Toggle:** Light/Dark mode switch for better user experience.
+
+### 🔹 Main Section
+- **Table Navigation Bar:** Displays the active table name.
+- **Action Buttons:**
+  - **Submit Button:** Enables when modifications are made to the table.
+  - **Actions Dropdown:** Provides options to delete selected rows or clear all selections (only works when at least one row is selected).
+- **Interactive Table:**
+  - Displays order data fetched from an API.
+  - Supports row selection using checkboxes.
+  - Allows modification of order status (only when the edit button is clicked).
+- **Pagination:**
+  - Navigate to the first or last page easily.
+  - Displays the current page.
+  - Provides an input field for users to jump to a specific page.
+
+### 🔹 Footer
+- Displays copyright information.
+
+## 📊 Tech Stack
+- **Frontend:** React, Tailwind CSS
+- **State Management:** React Hooks
+- **API Handling:** Axios (or Fetch API)
+- **Deployment:** Vercel/Netlify (optional)
+
+## ⚡ Getting Started
+
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/firihy96/octane-task.git
+cd octane-task
+```
+
+### 2️⃣ Install Dependencies
+```sh
+npm install
+```
+
+
+### 4️⃣ Run the Application
+```sh
+npm run dev
+```
+
+## 🎨 UI & Styling
+- The app is styled using **Tailwind CSS** for a modern and responsive design.
+- Dark mode is implemented using **CSS variables**.
+- Interactive elements (buttons, checkboxes, and tables) follow an intuitive and accessible design.
+
+## 🔄 API Integration
+- The app fetches order data from an API and updates the table accordingly.
+- Supports real-time status updates when an edit button is clicked.
+- Uses Axios to handle API requests efficiently.
+
+## 📌 Future Enhancements
+- **Search & Filtering:** Allow users to search for specific orders.
+- **Sorting:** Enable sorting by order date, status, or amount.
+- **Export Data:** Provide an option to export table data as CSV.
+
+## 🛠️ Contributing
+Contributions are welcome! Feel free to submit a pull request or open an issue.
