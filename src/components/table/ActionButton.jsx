@@ -33,7 +33,7 @@ export default function ActionButton({
 
   return (
     <div ref={dropdownRef} className="flex gap-8">
-      <div className="flex items-center justify-center  bg-gray-100">
+      <div className="flex items-center justify-center  bg-inherit">
         <button
           disabled={!table.options.state.isChanged}
           onClick={() => setIsModalOpen(true)}

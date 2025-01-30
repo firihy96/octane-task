@@ -32,12 +32,12 @@ const RoleOptions = ({ row, column, table, getValue  }) => {
 
   return (
     <div
-      className={`cursor-pointer relative w-20 grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${currentStyle} ${
+      className={`cursor-pointer relative w-full grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${currentStyle} ${
         disable ? "pointer-events-none opacity-90" : ""
       }`}
     >
       <select
-        className={`min-w-12 text-sm border border-transparent py-1 transition duration-300 ease outline-none ${currentStyle} ${
+        className={`w-full text-sm border border-transparent py-1 transition duration-300 ease outline-none ${currentStyle} ${
           disable ? "appearance-none" : ""
         }`}
         name="role"

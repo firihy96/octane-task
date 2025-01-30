@@ -34,7 +34,7 @@ const Table = ({ table, flexRender, className }) => {
                 key={cell.id}
                 className=" px-1 min-h-16 max-h-20 border-b border-[#eceff180]-50 "
               >
-                <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900">
+                <div className="block font-sans text-sm antialiased font-bold leading-normal text-[#eceff180]-900 w-full">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </div>
               </td>

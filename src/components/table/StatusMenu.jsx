@@ -33,12 +33,12 @@ const StatusMenu = ({ row, column, table }) => {
 
   return (
     <div
-      className={`cursor-pointer relative w-fit grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${currentStyle} ${
+      className={`cursor-pointer relative w-full grid justify-center py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${currentStyle} ${
         disable ? "pointer-events-none opacity-90" : ""
       }`}
     >
       <select
-        className={`w-fit text-sm border border-transparent px-1 transition duration-300 ease outline-none ${currentStyle} ${
+        className={`w-full text-sm border border-transparent px-1 transition duration-300 ease outline-none ${currentStyle} ${
           disable ? "appearance-none" : ""
         }`}
         name="status"

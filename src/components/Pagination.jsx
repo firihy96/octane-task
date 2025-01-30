@@ -58,7 +58,7 @@ const Pagination = ({ table }) => {
   };
 
   return (
-    <div className="w-full h-12 p-2 flex-shrink-0 flex items-center justify-between dark:text-gray-200">
+    <div className="w-full h-12 p-2 flex-shrink-0 flex items-center justify-between dark:text-gray-200 ">
       <div>
         <p className="text-slate-600 dark:text-gray-200">
           Go to Page{" "}

@@ -13,10 +13,10 @@ const TableEditCell = ({ table, column, row }) => {
     table.options.meta.activateStatus([row.index, isEditActive]);
   }, [isEditActive]);
   return (
-    <div className="p-4 border-blue-gray-50">
+    <div className="p-4 border-blue-gray-50 ">
       <button
-        className={`relative h-10 max-h-[40px] w-10 max-w-[40px]  select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/50 ${
-          isEditActive ? " bg-gray-900/20 " : ""
+        className={`relative h-10 max-h-[40px] w-10 max-w-[40px]  select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/50 dark:hover:bg-gray-200/50 dark:text-gray-200 ${
+          isEditActive ? " bg-gray-700/20  " : ""
         } `}
         type="button"
         onClick={() => {

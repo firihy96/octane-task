@@ -11,7 +11,7 @@ const IndeterminateCheckbox = ({ indeterminate, ...props }) => {
   }, [ref, indeterminate, props.checked]);
 
   return (
-    <div className="inline-flex items-center">
+    <div className="inline-flex items-center pl-4">
       <label className="flex items-center cursor-pointer relative">
         <input
           ref={ref}

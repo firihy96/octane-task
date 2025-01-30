@@ -13,7 +13,7 @@ const ActiveOption = ({ row, column, table, getValue }) => {
     (e) => {
       const newValue = e.target.value;
       setValue(newValue);
-      table.options.meta.updateData(row.index, column.id, newValue); // Pass the new value here
+      table.options.meta.updateData(row.index, column.id, newValue); 
     },
     [table, row.index, column.id]
   );
@@ -25,12 +25,14 @@ const ActiveOption = ({ row, column, table, getValue }) => {
 
   return (
     <div
-      className={`cursor-pointer relative w-20 grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${
+      className={`cursor-pointer relative w-full
+         grid justify-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${
         activeStyles[value]
       } ${disable ? "pointer-events-none opacity-90" : ""}`}
     >
       <select
-        className={`min-w-16 text-sm border border-transparent py-1 transition duration-300 ease outline-none ${
+        className={`w-full
+           text-sm border border-transparent py-1 transition duration-300 ease outline-none ${
           activeStyles[value]
         } ${disable ? "appearance-none" : ""}`}
         name="active"
@@ -41,7 +43,7 @@ const ActiveOption = ({ row, column, table, getValue }) => {
         <option className={`${activeStyles.Yes}`} value="Yes">
           Yes
         </option>
-        <option className={`${activeStyles.No}`} value="No"> {/* Fixed value to "No" */}
+        <option className={`${activeStyles.No}`} value="No">
           No
         </option>
       </select>
